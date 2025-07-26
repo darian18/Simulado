@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulado CFS/PMESP 2025 - Tipo 2 (Verde)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 5vw;
+      line-height: 1.6;
+      background: #f9f9f9;
+    }
+    .questao {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .questao h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+    }
+    .alternativas label {
+      display: block;
+      margin-bottom: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .correta {
+      color: green;
+      font-weight: bold;
+    }
+    .incorreta {
+      color: red;
+      font-weight: bold;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 1rem;
+      width: 100%;
+    }
+    #timer, #pontuacaoFinal {
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.4rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body onload="iniciarTimer()">
+  <h1>Simulado CFS/PMESP 2025 - Prova Tipo 2 (Verde)</h1>
+  <div id="timer" style="font-weight:bold; font-size:18px; margin-bottom:20px;">Tempo restante: <span id="tempo">---</span></div>
+  <div id="simulado"></div>
+  <div id="pontuacaoFinal" style="margin-top:30px; font-size:18px;"></div>
+  <script>
+    const questoes = [
+  {
+    numero: 1,
+    enunciado: "Um líder político antigo declarou:<br><em>Estamos condenados a viver em paz.</em><br>Se substituirmos o infinitivo 'viver' por uma forma verbal desenvolvida, a forma correta seria:",
+    alternativas: {
+      A: "a que vivamos em paz.",
+      B: "a vivermos em paz.",
+      C: "a que vivêssemos em paz.",
+      D: "a que se viva em paz."
+    },
+    correta: "A"
+  },
+  {
+    numero: 2,
+    enunciado: "Assinale a frase construída com pontuação correta.",
+    alternativas: {
+      A: "Diplomacia é a arte de saber o, que não dizer.",
+      B: "Um líder não impõe uma decisão: modela-a.",
+      C: "Na deixe inimigos, na retaguarda.",
+      D: "A guerra parece bonita; para quem não a conhece."
+    },
+    correta: "B"
+  },
+  {
+    numero: 3,
+    enunciado: "Assinale a frase que mostra uma visão negativa da paz.",
+    alternativas: {
+      A: "A paz não tem fronteiras.",
+      B: "A paz é mais preciosa que um pedaço de terra.",
+      C: "A paz é a única forma de nos sentirmos humanos.",
+      D: "A paz é um pequeno intervalo entre guerras."
+    },
+    correta: "D"
+  },
+  {
+    numero: 4,
+    enunciado: "Assinale o par de palavras abaixo em que o adjetivo mostra uma qualidade do substantivo por ele determinado.",
+    alternativas: {
+      A: "Céu cinzento.",
+      B: "Caneta esferográfica.",
+      C: "Tempo nublado.",
+      D: "Sol maravilhoso."
+    },
+    correta: "D"
+  },
+  {
+    numero: 5,
+    enunciado: "Assinale a frase em que o acento grave indicativo da crase está bem-empregado.",
+    alternativas: {
+      A: "Fundamental é aplicar a lei igualmente à homens de todas as condições.",
+      B: "Os Estados Unidos podem ganhar a guerra, mas perderão à paz.",
+      C: "Se você der comida à eles, é democracia. Se não der, é ditadura.",
+      D: "Embriagar-se é como caminhar às cegas na escuridão da rua."
+    },
+    correta: "D"
+  },
+  {
+    numero: 6,
+    enunciado: "Assinale a frase em que não ocorre a presença de uma oração consecutiva.",
+    alternativas: {
+      A: "Ninguém sofre tão pouco como o louco.",
+      B: "Tão certo é que a paisagem depende do ponto de vista, que o melhor modo de apreciar o chicote é ter-lhe o cabo na mão.",
+      C: "Não existe um homem tão justo sobre a Terra que faça o bem sem jamais pecar.",
+      D: "O país da loucura e da sabedoria são limítrofes e de fronteiras tão incertas que ninguém pode saber em qual dos dois se encontra."
+    },
+    correta: "A"
+  },
+  {
+    numero: 7,
+    enunciado: "Assinale a frase em que o termo sublinhado é um adjetivo.",
+    alternativas: {
+      A: "O direito de roubar o estado não é um direito humano e não deve ser protegido.",
+      B: "Democracia é como nadar. Aprende-se praticando.",
+      C: "A gente não pode deixar que o país vá para o brejo.",
+      D: "Campanhas contra a fome não enchem barriga de ninguém."
+    },
+    correta: "A"
+  },
+  {
+    numero: 8,
+    enunciado: "Um jornalista declarou há alguns anos:<br>Mandar que ministros denunciados apurem denúncias em seus ministérios ou autarquias é / como indicar o coelho para descobrir quem comeu a couve da horta.<br>Entre os dois segmentos indicados há uma relação de:",
+    alternativas: {
+      A: "causa e consequência.",
+      B: "afirmação e explicação.",
+      C: "comparação entre duas ações.",
+      D: "explicação de algo que ficou pouco claro."
+    },
+    correta: "C"
+  },
+  {
+    numero: 9,
+    enunciado: "Em cada opção abaixo há um termo sublinhado que retoma um elemento do segmento anterior.<br>Assinale a frase em que a correspondência entre os termos não está correta.",
+    alternativas: {
+      A: "Ricardo acaba de cancelar a sua reserva. Isso me espanta bastante, pois não é hábito dele.",
+      B: "Sônia encontrou um emprego em seu domínio de especialização. Ela começa amanhã de manhã.",
+      C: "O professor nos deu uma semana para acabar o relatório. Será necessário ainda fazer a revisão do texto.",
+      D: "As esculturas africanas expostas atualmente no museu do centro da cidade causam admiração entre os visitantes. Você gosta de algumas delas em particular?"
+    },
+    correta: "C"
+  },
+  {
+    numero: 10,
+    enunciado: "Todos tomamos conhecimento dos recentes conflitos no Oriente Médio. Um jornalista escreveu a propósito:<br>Se eu fosse um dos homens do Hamas, não sairia para comprar uma pizza.<br>Essa frase representa por parte de quem a escreve:",
+    alternativas: {
+      A: "uma ameaça.",
+      B: "uma ordem.",
+      C: "um conselho.",
+      D: "uma advertência."
+    },
+    correta: "C"
+  },
+  {
+    numero: 11,
+    enunciado: "Assinale a frase em que não ocorre paralelismo sintático.",
+    alternativas: {
+      A: "As palavras são a mágica da mente; comida é a mágica do corpo e a música é a mágica da alma.",
+      B: "Prefiro a mente aberta por um milagre do que a mente fechada por uma crença.",
+      C: "As coisas não acontecem simplesmente, elas são feitas para acontecer.",
+      D: "Os dez mandamentos são mal conhecidos, mal compreendidos e mal vividos."
+    },
+    correta: "C"
+  },
+  {
+    numero: 12,
+    enunciado: "Assinale a frase que se estrutura com base na linguagem figurada.",
+    alternativas: {
+      A: "O Iraque é mais seguro que muita cidade brasileira.",
+      B: "É preciso colocar alguém na cadeia.",
+      C: "Não se pode tirar a esperança do povo.",
+      D: "Cadeia é castigo e não colônia de férias."
+    },
+    correta: "D"
+  },
+  {
+    numero: 13,
+    enunciado: "Assinale a frase em que ocorre a construção verbal na voz passiva.",
+    alternativas: {
+      A: "Não queremos parar de ser o que somos.",
+      B: "Não somos obrigados a aderir às minorias.",
+      C: "Neste país todos mandam e ninguém obedece.",
+      D: "Alguns são bons para a discussão política."
+    },
+    correta: "B"
+  },
+  {
+    numero: 14,
+    enunciado: "Assinale a frase abaixo em que a troca de posição realizada na frase não é feita de forma adequada, pois ocorre modificação de sentido.",
+    alternativas: {
+      A: "A sabedoria se adquire com a capacidade, não com a idade / A sabedoria se adquire com a idade, não com a capacidade.",
+      B: "Nunca, nunca disse uma coisa a Natureza e outra a Sabedoria / Nunca, nunca disse uma coisa a Sabedoria e outra a Natureza.",
+      C: "Quem olha para trás não olha para a frente / Quem olha para a frente não olha para trás.",
+      D: "Os homens confiam menos nos seus ouvidos do que nos seus olhos / Os homens confiam mais nos seus olhos do que nos seus ouvidos."
+    },
+    correta: "A"
+  },
+  {
+    numero: 15,
+    enunciado: "Observe a frase dita por um ex-ministro da Justiça:<br>O grande mal do Brasil tem sido o crime sem castigo. O que reduz a criminalidade é a certeza da punição.<br>Sobre essa frase, assinale a afirmação correta.",
+    alternativas: {
+      A: "O autor atribui a criminalidade no Brasil a um conjunto de fatores.",
+      B: "A locução 'sem castigo' equivale ao adjetivo 'impune'.",
+      C: "O segundo período do texto retifica uma falha no período anterior.",
+      D: "A expressão 'certeza da punição' é um antônimo de 'crime sem castigo'."
+    },
+    correta: "B"
+  },
+  {
+    numero: 16,
+    enunciado: "Qualquer pessoa desprovida de senso de humor está à mercê de todos.<br>Sobre essa frase, assinale a afirmativa correta.",
+    alternativas: {
+      A: "'Qualquer pessoa' é o mesmo que 'Pessoa qualquer'.",
+      B: "'desprovida' equivale a 'sem provas'.",
+      C: "'à mercê de todos' mostra inferioridade.",
+      D: "'senso de humor' indica desprezo e deboche."
+    },
+    correta: "C"
+  },
+  {
+    numero: 17,
+    enunciado: "Assinale a frase em que há antônimos entre os segmentos destacados.",
+    alternativas: {
+      A: "Não se acaba com a corrupção, / combate-se.",
+      B: "Demagogia é usar o passado / para absolver os responsáveis pelo presente.",
+      C: "Alguém lá deu uns tiros / mas não atingiram ninguém.",
+      D: "Sempre haverá um conflito entre o bom / e o ótimo."
+    },
+    correta: "B"
+  },
+  {
+    numero: 18,
+    enunciado: "Assinale a frase abaixo em que a preposição 'de' é exigida por um termo anterior.",
+    alternativas: {
+      A: "Não se tem necessidade de muito dinheiro para viver.",
+      B: "Bolo de fubá agrada a todos, como a democracia.",
+      C: "De manhã acordamos com disposição.",
+      D: "O vinho de Portugal é de ótima qualidade."
+    },
+    correta: "A"
+  },
+  {
+    numero: 19,
+    enunciado: "Assinale a frase que mostra uma estruturação diferente das demais, por não ser uma definição.",
+    alternativas: {
+      A: "Negócios são a minha forma de arte.",
+      B: "A inteligência é feita por um terço de instinto, um terço de memória e o último terço de vontade.",
+      C: "A genialidade não é outra coisa senão uma grande aptidão para a paciência.",
+      D: "A genialidade é uma variedade da loucura."
+    },
+    correta: "B"
+  },
+  {
+    numero: 20,
+    enunciado: "Um político em prisão domiciliar declarou:<br>Não vejo muita diferença em estar preso aqui, ou estar preso num hotel, ou num quarto de luxo. A diferença é nenhuma. O que constrange é a falta de liberdade.<br>Sobre o texto acima, assinale a afirmação correta.",
+    alternativas: {
+      A: "Os segmentos 'Não vejo muita diferença' e 'A diferença é nenhuma' mostram uma contradição.",
+      B: "Segundo o texto, a falta de liberdade é menos intensa em alguns dos lugares citados.",
+      C: "Os locais de prisão citados proporcionam mais ou menos liberdade ao prisioneiro, segundo o texto.",
+      D: "O que é semelhante em todos os locais de prisão, segundo o texto, é a impossibilidade de receber visitas."
+    },
+    correta: "A"
+  }
+,
+  {
+    numero: 21,
+    enunciado: "A negação lógica da sentença 'Se o triângulo é amarelo, então o quadrado não é azul' é:",
+    alternativas: {
+      A: "Se o triângulo não é amarelo, então o quadrado é azul.",
+      B: "Se o quadrado é azul, então o triângulo é amarelo.",
+      C: "O triângulo não é amarelo ou o quadrado não é azul.",
+      D: "O triângulo é amarelo e o quadrado é azul."
+    },
+    correta: "D"
+  },
+  {
+    numero: 22,
+    enunciado: "Em um colégio, 60 alunos estão matriculados em um curso de inglês e 40 alunos em espanhol. Alguns desses alunos estão matriculados nos dois cursos. Se sortearmos um aluno do curso de inglês, a probabilidade de que ele também esteja matriculado no curso de espanhol é 5/12. Se sortearmos um aluno do curso de espanhol, a probabilidade de que ele também esteja no curso de inglês é:",
+    alternativas: {
+      A: "5/12.",
+      B: "5/16.",
+      C: "5/9.",
+      D: "5/8."
+    },
+    correta: "D"
+  },
+  {
+    numero: 23,
+    enunciado: "Joana fez 3 testes com notas 65, 77 e 72. Para obter média 70 em 5 testes, a menor nota que pode tirar em um dos 2 que faltam é:",
+    alternativas: {
+      A: "36.",
+      B: "42.",
+      C: "44.",
+      D: "68."
+    },
+    correta: "A"
+  },
+  {
+    numero: 24,
+    enunciado: "Um terreno tem 200 tarefas. Sabendo que 1 tarefa equivale a um quadrado de lado 25 varas (1 vara = 2,2m) e 1 alqueire paulista equivale a 2,42 hectares, qual sua medida em alqueires paulistas?",
+    alternativas: {
+      A: "13.",
+      B: "17.",
+      C: "21.",
+      D: "25."
+    },
+    correta: "D"
+  },
+  {
+    numero: 25,
+    enunciado: "As distâncias em linha reta de SP ao RJ e de SP a Manaus são 360km e 2700km, respectivamente. Se em um mapa a distância de SP ao RJ é 5cm, qual é a distância de SP a Manaus nesse mesmo mapa?",
+    alternativas: {
+      A: "34,5cm.",
+      B: "36,0cm.",
+      C: "37,5cm.",
+      D: "39,0cm."
+    },
+    correta: "C"
+  },
+  {
+    numero: 26,
+    enunciado: "Cinco times disputam um torneio jogando entre si duas vezes. A vitória vale 3 pontos, o empate 1. Dois times ficaram empatados em primeiro lugar. Qual a maior pontuação que cada pode ter feito?",
+    alternativas: {
+      A: "21.",
+      B: "22.",
+      C: "23.",
+      D: "24."
+    },
+    correta: "A"
+  },
+  {
+    numero: 27,
+    enunciado: "Em uma caixa há bolas verdes e azuis na razão 4:3. Acrescentando 15 bolas azuis, a razão passa a 2:3. Quantas bolas havia inicialmente?",
+    alternativas: {
+      A: "60.",
+      B: "40.",
+      C: "35.",
+      D: "25."
+    },
+    correta: "C"
+  },
+  {
+    numero: 28,
+    enunciado: "O preço médio do litro da gasolina no Brasil é R$6,20 e no Uruguai é R$10,00. O preço no Uruguai é maior que o do Brasil em, aproximadamente:",
+    alternativas: {
+      A: "38%.",
+      B: "46%.",
+      C: "52%.",
+      D: "61%."
+    },
+    correta: "D"
+  },
+  {
+    numero: 29,
+    enunciado: "Em um vestiário com 12 armários (6 ímpares à esquerda e 6 pares à direita), Marcelo e Felipe receberam um armário. Qual a probabilidade de que estejam em armários vizinhos?",
+    alternativas: {
+      A: "15%.",
+      B: "18%.",
+      C: "21%.",
+      D: "24%."
+    },
+    correta: "A"
+  },
+  {
+    numero: 30,
+    enunciado: "De um quadrado de lado 13cm foram retirados dois quadrados iguais, resultando um polígono com perímetro 68cm. Qual sua área?",
+    alternativas: {
+      A: "137.",
+      B: "145.",
+      C: "151.",
+      D: "153."
+    },
+    correta: "A"
+  },
+  {
+    numero: 31,
+    enunciado: "Dois números somam 78. O dobro de um deles excede o triplo do outro em 1 unidade. Qual a diferença entre eles?",
+    alternativas: {
+      A: "15.",
+      B: "16.",
+      C: "17.",
+      D: "18."
+    },
+    correta: "B"
+  },
+  {
+    numero: 32,
+    enunciado: "Bruna tem 6 cupons para trocar por picolés. Ela troca um a cada 9 dias, exceto às segundas-feiras. Qual foi o dia da semana em que começou?",
+    alternativas: {
+      A: "terça-feira.",
+      B: "quarta-feira.",
+      C: "quinta-feira.",
+      D: "domingo."
+    },
+    correta: "B"
+  },
+  {
+    numero: 33,
+    enunciado: "Manoel tirou 7,5 na primeira prova (peso 2) e 7,0 na segunda (peso 3). A terceira prova tem peso 4. Qual a nota mínima para média 6,0?",
+    alternativas: {
+      A: "3,5.",
+      B: "4,1.",
+      C: "4,5.",
+      D: "4,8."
+    },
+    correta: "C"
+  },
+  {
+    numero: 34,
+    enunciado: "Considere: Se João toma café, então não dorme. É correto concluir que:",
+    alternativas: {
+      A: "Se João não toma café então dorme.",
+      B: "Se João não dorme então tomou café.",
+      C: "Se João dorme então não tomou café.",
+      D: "João toma café ou dorme."
+    },
+    correta: "C"
+  },
+  {
+    numero: 35,
+    enunciado: "Quatro condecorações diferentes serão dadas a três sargentos, cada um deve receber pelo menos uma. Quantas formas diferentes existem?",
+    alternativas: {
+      A: "12.",
+      B: "24.",
+      C: "36.",
+      D: "72."
+    },
+    correta: "C"
+  },
+  {
+    numero: 36,
+    enunciado: "Em uma caixa há esferas e cubos, vermelhos e brancos. Dados: cubos vermelhos = 17, cubos brancos = nº de sólidos vermelhos, esferas = 47, há 57 cubos a mais que esferas brancas. Qual o total de sólidos?",
+    alternativas: {
+      A: "116.",
+      B: "118.",
+      C: "120.",
+      D: "122."
+    },
+    correta: "A"
+  },
+  {
+    numero: 37,
+    enunciado: "A sentença 'Se Cláudia é torcedora do Palmeiras, então Ricardo é torcedor do Santos' é falsa. Conclui-se que:",
+    alternativas: {
+      A: "Se Ricardo não é torcedor do Santos, então Cláudia não é torcedora do Palmeiras.",
+      B: "Cláudia é torcedora do Palmeiras e Ricardo é torcedor do Santos.",
+      C: "Cláudia não é torcedora do Palmeiras ou Ricardo é torcedor do Santos.",
+      D: "Cláudia é torcedora do Palmeiras e Ricardo não é torcedor do Santos."
+    },
+    correta: "D"
+  },
+  {
+    numero: 38,
+    enunciado: "Colocando os números 23/16, 35/24, 45/32 em ordem crescente, obtém-se:",
+    alternativas: {
+      A: "23/16 < 35/24 < 45/32.",
+      B: "35/24 < 23/16 < 45/32.",
+      C: "45/32 < 23/16 < 35/24.",
+      D: "35/24 < 45/32 < 23/16."
+    },
+    correta: "C"
+  },
+  {
+    numero: 39,
+    enunciado: "O conjunto A contém os números naturais múltiplos de 4 com dois algarismos. O conjunto B contém os múltiplos de 6 com dois algarismos. O número de elementos na interseção A ∩ B é:",
+    alternativas: {
+      A: "6.",
+      B: "8.",
+      C: "10.",
+      D: "12."
+    },
+    correta: "B"
+  },
+  {
+    numero: 40,
+    enunciado: "Uma poligonal possui os seguintes segmentos retos: AB = 3, BC = 4, CD = 7, DE = 2. Qual a distância entre os pontos A e E?",
+    alternativas: {
+      A: "√48.",
+      B: "√52.",
+      C: "√56.",
+      D: "√60."
+    },
+    correta: "B"
+  }
+,
+  {
+    numero: 41,
+    enunciado: "Lucas e alguns colegas planejaram ocupar dolosamente um estabelecimento militar. Antes da execução, Lucas denunciou o plano ao superior hierárquico. Qual o crime?",
+    alternativas: {
+      A: "conspiração, não sendo caso de isenção de pena.",
+      B: "conspiração, sendo caso de isenção de pena.",
+      C: "revolta, não sendo caso de isenção de pena.",
+      D: "revolta, sendo caso de isenção de pena."
+    },
+    correta: "B"
+  },
+  {
+    numero: 42,
+    enunciado: "José, com dolo, lesionou policial militar no exercício da função. A perícia constatou debilidade permanente de membro. José responderá por:",
+    alternativas: {
+      A: "lesão corporal de natureza grave, com aumento de pena.",
+      B: "lesão corporal simples, com aumento de pena.",
+      C: "lesão corporal gravíssima.",
+      D: "lesão corporal grave."
+    },
+    correta: "A"
+  },
+  {
+    numero: 43,
+    enunciado: "Policiais Luiz e Matheus foram prestar depoimento no fórum. Como devem ser inquiridos?",
+    alternativas: {
+      A: "Em conjunto, com perguntas feitas pelo juiz.",
+      B: "Separadamente, com perguntas feitas diretamente pelas partes.",
+      C: "Separadamente, com perguntas feitas pelo juiz.",
+      D: "Em conjunto, com perguntas previamente autorizadas pelo juiz."
+    },
+    correta: "B"
+  },
+  {
+    numero: 44,
+    enunciado: "Réu em processo penal afirmou que suas garantias previstas na Convenção Interamericana de Direitos Humanos não estavam sendo observadas. Quais garantias estão corretas?",
+    alternativas: {
+      A: "I, apenas.",
+      B: "III, apenas.",
+      C: "I e II, apenas.",
+      D: "II e III, apenas."
+    },
+    correta: "D"
+  },
+  {
+    numero: 45,
+    enunciado: "Policial Matheus participou de curso internacional sobre princípios das relações internacionais. Qual princípio rege o Brasil?",
+    alternativas: {
+      A: "erradicação da pobreza.",
+      B: "construção de uma sociedade justa.",
+      C: "garantia do desenvolvimento nacional.",
+      D: "repúdio ao terrorismo e ao racismo."
+    },
+    correta: "D"
+  },
+  {
+    numero: 46,
+    enunciado: "João é investigado por furto qualificado. A autoridade policial solicitou prisão preventiva. O MP foi contra. O juiz pode decretar a prisão?",
+    alternativas: {
+      A: "Não pode, pois precisa do parecer do MP.",
+      B: "Pode, pois trata-se de crime com pena máxima superior a 4 anos.",
+      C: "Não pode, pois precisa do prévio descumprimento de cautelares.",
+      D: "Pode, pois trata-se de crime punido com reclusão."
+    },
+    correta: "B"
+  },
+  {
+    numero: 47,
+    enunciado: "Diante da falta de norma regulamentadora que inviabiliza o exercício de direitos constitucionais, o policial Caio pode impetrar:",
+    alternativas: {
+      A: "mandado de segurança.",
+      B: "mandado de injunção.",
+      C: "habeas corpus.",
+      D: "ação popular."
+    },
+    correta: "B"
+  },
+  {
+    numero: 48,
+    enunciado: "Sargento Luiz não se apresentou no momento da partida da aeronave de que era tripulante. Qual crime cometeu?",
+    alternativas: {
+      A: "abandono de posto.",
+      B: "deserção especial, com aumento de pena.",
+      C: "deserção qualificada.",
+      D: "deserção especial, sem aumento de pena."
+    },
+    correta: "B"
+  },
+  {
+    numero: 49,
+    enunciado: "Policiais cumprirão mandado de busca e apreensão. Qual alternativa está incorreta?",
+    alternativas: {
+      A: "Executores devem mostrar e ler o mandado ao morador.",
+      B: "A coisa descoberta deve ser imediatamente apreendida.",
+      C: "A busca domiciliar só pode ocorrer de dia.",
+      D: "Executores devem lavrar auto circunstanciado."
+    },
+    correta: "D"
+  },
+  {
+    numero: 50,
+    enunciado: "Policial Caio recebeu sanção disciplinar verbal, aplicada sem publicação. Qual a sanção?",
+    alternativas: {
+      A: "permanência disciplinar.",
+      B: "repreensão.",
+      C: "advertência, para faltas leves e médias.",
+      D: "advertência, para faltas leves."
+    },
+    correta: "C"
+  },
+  {
+    numero: 51,
+    enunciado: "João manteve conjunção carnal com sua esposa embriagada, sem possibilidade de resistência. João responderá por:",
+    alternativas: {
+      A: "estupro de vulnerável simples, majorado por ser cônjuge.",
+      B: "estupro simples, majorado por ser cônjuge.",
+      C: "estupro qualificado.",
+      D: "estupro de vulnerável simples, sem aumento de pena."
+    },
+    correta: "A"
+  },
+  {
+    numero: 52,
+    enunciado: "Matheus pediu R$5.000 a João para influenciar policial Caio a aumentar patrulhamento em sua região. Qual o crime?",
+    alternativas: {
+      A: "exploração de prestígio.",
+      B: "favorecimento pessoal.",
+      C: "tráfico de influência.",
+      D: "favorecimento real."
+    },
+    correta: "C"
+  },
+  {
+    numero: 53,
+    enunciado: "Caio foi preso em flagrante por racismo. A autoridade policial poderá arbitrar fiança?",
+    alternativas: {
+      A: "Não, pois é inafiançável e imprescritível.",
+      B: "Não, pois é prescritível, mas inafiançável.",
+      C: "Sim, pois é imprescritível, mas afiançável.",
+      D: "Sim, pois é prescritível e afiançável."
+    },
+    correta: "A"
+  },
+  {
+    numero: 54,
+    enunciado: "Policial se sentiu prejudicado por ato de superior e pretende pedir reconsideração. Qual a alternativa correta?",
+    alternativas: {
+      A: "A autoridade deve decidir em 5 dias com despacho publicado.",
+      B: "É vedado o acompanhamento de documentos comprobatórios.",
+      C: "Pedido intempestivo ou procrastinador será publicado.",
+      D: "Após 15 dias sem resposta, cabe recurso hierárquico."
+    },
+    correta: "C"
+  },
+  {
+    numero: 55,
+    enunciado: "João abordou Maria com ameaça de morte para roubar. Na delegacia, ofereceu R$5.000 ao delegado para não lavrar flagrante. João responderá por:",
+    alternativas: {
+      A: "roubo com concurso de pessoas e corrupção passiva qualificada.",
+      B: "roubo com concurso de pessoas e corrupção ativa simples.",
+      C: "roubo qualificado e corrupção passiva simples.",
+      D: "roubo simples e corrupção passiva qualificada."
+    },
+    correta: "B"
+  },
+  {
+    numero: 56,
+    enunciado: "Matheus foi perseguido por colegas após crime. Foi capturado no mesmo dia, sem objetos do crime. Está em flagrante delito?",
+    alternativas: {
+      A: "Não, pois não foi encontrado com instrumentos do crime.",
+      B: "Sim, pois foi perseguido logo após o crime.",
+      C: "Sim, pois foi capturado no mesmo dia.",
+      D: "Não, pois não estava cometendo o crime ao ser capturado."
+    },
+    correta: "B"
+  },
+  {
+    numero: 57,
+    enunciado: "Durante palestra sobre o Regulamento Disciplinar da PMESP, qual é um valor fundamental da moral policial-militar?",
+    alternativas: {
+      A: "observância rigorosa de normas.",
+      B: "emprego de energia no serviço.",
+      C: "obediência a ordens legais.",
+      D: "dignidade humana."
+    },
+    correta: "D"
+  },
+  {
+    numero: 58,
+    enunciado: "No Excel 365, o atalho Alt + F1 serve para:",
+    alternativas: {
+      A: "visualizar impressão.",
+      B: "ordenar dados.",
+      C: "inserir gráfico.",
+      D: "fechar o programa."
+    },
+    correta: "C"
+  },
+  {
+    numero: 59,
+    enunciado: "Associe os botões do PowerPoint 365 às guias: 1–Revisão, 2–Inserir, 3–Desenhar, 4–Apresentação. A ordem correta é:",
+    alternativas: {
+      A: "1–2–3–4.",
+      B: "2–1–4–3.",
+      C: "1–3–4–2.",
+      D: "3–1–2–4."
+    },
+    correta: "B"
+  },
+  {
+    numero: 60,
+    enunciado: "No Word 365, qual guia contém o botão que exibe contagem de páginas, palavras e caracteres?",
+    alternativas: {
+      A: "Exibir.",
+      B: "Design.",
+      C: "Layout.",
+      D: "Revisão."
+    },
+    correta: "D"
+  }
+];
+
+    const container = document.getElementById("simulado");
+
+    questoes.forEach(q => {
+      const div = document.createElement("div");
+      div.className = "questao";
+      div.id = `q${q.numero}`;
+      let html = `<h3>${q.numero}. ${q.enunciado}</h3><div class="alternativas">`;
+      for (const [letra, texto] of Object.entries(q.alternativas)) {
+        html += `<label><input type="radio" name="q${q.numero}" value="${letra}"> (${letra}) ${texto}</label>`;
+      }
+      html += `</div><button onclick="corrigir('q${q.numero}', '${q.correta}')">Ver Resposta</button><p class="resposta"></p>`;
+      div.innerHTML = html;
+      container.appendChild(div);
+    });
+
+    function corrigir(id, correta) {
+      const questao = document.getElementById(id);
+      const alternativas = questao.querySelectorAll('input[type="radio"]');
+      const resposta = questao.querySelector('.resposta');
+      let marcada = null;
+      alternativas.forEach(input => {
+        if (input.checked) marcada = input.value;
+      });
+
+      if (!marcada) {
+        resposta.innerHTML = '<span class="incorreta">Selecione uma alternativa.</span>';
+        return;
+      }
+
+      if (marcada === correta) {
+        resposta.innerHTML = '<span class="correta">Resposta correta!</span>';
+        questao.dataset.correta = "1";
+      } else {
+        resposta.innerHTML = '<span class="incorreta">Incorreta. A resposta certa é (' + correta + ').</span>';
+        questao.dataset.correta = "0";
+      }
+      verificarPontuacao();
+    }
+
+    function iniciarTimer() {
+      let tempo = 60 * 60; // 1 hora em segundos
+      const tempoSpan = document.getElementById('tempo');
+      const intervalo = setInterval(() => {
+        const minutos = Math.floor(tempo / 60);
+        const segundos = tempo % 60;
+        tempoSpan.textContent = `${minutos}m ${segundos}s`;
+        tempo--;
+        if (tempo < 0) {
+          clearInterval(intervalo);
+          alert("Tempo esgotado! Verifique seu desempenho.");
+          verificarPontuacao();
+        }
+      }, 1000);
+    }
+
+    function verificarPontuacao() {
+      const questoes = document.querySelectorAll('.questao');
+      let corretas = 0;
+      let respondidas = 0;
+      questoes.forEach(q => {
+        const val = q.dataset.correta;
+        if (val === "0" || val === "1") {
+          respondidas++;
+          if (val === "1") corretas++;
+        }
+      });
+      if (respondidas === questoes.length) {
+        const nota = ((corretas / questoes.length) * 100).toFixed(2);
+        document.getElementById("pontuacaoFinal").innerHTML = `
+          <hr><p>Você acertou <strong>${corretas}</strong> de <strong>${questoes.length}</strong> questões (<strong>${nota}%</strong> de aproveitamento).</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
